@@ -1,0 +1,12 @@
+{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+<!-- url template tag is used to find 'detail' path in urls.py -->
+<!-- Do not hardcode urls in templates for loose coupling -->
+<!-- in "polls:detail" polls is an app namespace from polls/urls -->
+        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
