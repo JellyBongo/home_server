@@ -10,8 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 from os import environ
+import logging
 
 from pathlib import Path
+
+logging.basicConfig(filename='C:/Users/green/Desktop/django.log', filemode='w', level=logging.DEBUG)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +36,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'polls.apps.PollsConfig',
+    'homeportal_back.apps.HomeportalBackConfig',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -50,6 +55,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 1
+}
 
 ROOT_URLCONF = 'mysite.urls'
 
@@ -82,10 +92,11 @@ DATABASES = {
         'HOST': '127.0.0.1',  # ‘host’ lines in pg_hba.conf
         'PORT': '5432',
         'USER': 'django_admin',
-        'PASSWORD': environ.get('PSQL_DJANGO_PASSWORD')
+        'PASSWORD': environ.get('PSQL_DJANGO_PASSWORD'),
     }
 }
 
+logging.debug(DATABASES['default']['PASSWORD'])
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
