@@ -13,7 +13,8 @@ from enum import Enum
 
 class User(models.Model):
     username = models.CharField(max_length=16)
-    email = models.EmailField(unique=True)
+    email = models.EmailField(db_index=True, unique=True)
+    is_active = models.BooleanField(default=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     birthday = models.DateTimeField()
@@ -54,7 +55,7 @@ class Post(models.Model):
 
 class Video(models.Model):
     link = models.URLField()
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='videos')
     publication_date = models.DateTimeField()
 
     def __str__(self):
@@ -64,7 +65,7 @@ class Video(models.Model):
 class Image(models.Model):
     # TODO: decide what field type S3 path will have
     s3_path = models.FileField()
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='images')
     publication_date = models.DateTimeField()
 
     def __str__(self):

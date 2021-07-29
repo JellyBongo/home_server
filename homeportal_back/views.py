@@ -4,8 +4,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import InvitationSerializer, UserSerializer
-from .models import Invitation, User
+from .serializers import InvitationSerializer, PostSerializer, UserSerializer
+from .models import Invitation, Post, User
 from .paginations import SmallSetPagination, MediumSetPagination
 # Create your views here.
 
@@ -39,19 +39,24 @@ from .paginations import SmallSetPagination, MediumSetPagination
 #         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class UserListCreate(generics.ListCreateAPIView):
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     pagination_class = MediumSetPagination
 
 
-class InvitationListCreate(generics.ListCreateAPIView):
+class InvitationList(generics.ListCreateAPIView):
     queryset = Invitation.objects.all()
     serializer_class = InvitationSerializer
     pagination_class = MediumSetPagination
 
 
-class PostListCreate(generics.ListCreateAPIView):
+class PostList(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     pagination_class = SmallSetPagination
